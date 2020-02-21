@@ -1,0 +1,34 @@
+@import '../theming/widgets';
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  > header {
+    display: flex;
+
+    > div.tab {
+      flex: 0 0 auto;
+      padding: 0.25em 0.5em;
+      border: 1px solid accentColor(.25);
+      border-bottom: 0;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 2px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &.selected {
+        background-color: accentColor(.1);
+      }
+    }
+  }
+
+  > div.content {
+    flex: auto;
+    display: flex;
+    border: 1px solid accentColor(.25);
+    padding: 0.5em;
+  }
+}

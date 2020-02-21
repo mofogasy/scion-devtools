@@ -1,5 +1,8 @@
+@import './projects/scion/ɵtoolkit/widgets/src/theming/widgets';
+
 :host {
   display: flex;
+  padding: app-padding();
 
   > section {
     display: flex;
@@ -8,22 +11,6 @@
 
     > sci-list {
       flex: auto;
-
-      div.app-item {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        grid-gap: 10px;
-        margin-bottom: 20px;
-        border: 1px solid dimgrey;
-
-        span.label {
-          grid-column: 1 / 2;
-        }
-
-        span.value {
-          grid-column: 2 / 3;
-        }
-      }
     }
   }
 }

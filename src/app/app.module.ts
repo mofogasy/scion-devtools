@@ -9,20 +9,41 @@ import { AppDependenciesComponent } from './app-dependencies/app-dependencies.co
 import { AppDetailsComponent } from './app-details/app-details.component';
 import { AppListComponent } from './app-list/app-list.component';
 import { SciViewportModule } from '@scion/toolkit/viewport';
-import { SciListModule } from '@scion/ɵtoolkit/widgets';
+import {
+  SciAccordionModule, SciFilterFieldModule, SciListModule, SciParamsEnterModule, SciPropertyModule, TabBarModule
+} from '@scion/ɵtoolkit/widgets';
+import { AppListItemComponent } from './app-list-item/app-list-item.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CapabilityAccordionPanelComponent } from './capability-accordion-panel/capability-accordion-panel.component';
+import { CapabilityAccordionItemComponent } from './capability-accordion-item/capability-accordion-item.component';
+import { IntentAccordionPanelComponent } from './intent-accordion-panel/intent-accordion-panel.component';
+import { IntentAccordionItemComponent } from './intent-accordion-item/intent-accordion-item.component';
+import { QualifierChipListComponent } from './qualifier-chip-list/qualifier-chip-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppDependenciesComponent,
     AppDetailsComponent,
-    AppListComponent
+    AppListComponent,
+    AppListItemComponent,
+    CapabilityAccordionPanelComponent,
+    CapabilityAccordionItemComponent,
+    IntentAccordionPanelComponent,
+    IntentAccordionItemComponent,
+    QualifierChipListComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     SciViewportModule,
-    SciListModule
+    SciListModule,
+    SciAccordionModule,
+    SciFilterFieldModule,
+    SciParamsEnterModule,
+    SciPropertyModule,
+    TabBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

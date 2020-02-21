@@ -1,1 +1,70 @@
-<p>app-details works!</p>
+<sci-tab-bar>
+  <ng-template sciTab="Properties">
+    <section class="application">
+      <label class="app-name">Name:</label>
+      <span class="app-name">{{app?.name}}</span>
+
+      <label class="app-symbolic-name">Symbolic name:</label>
+      <span class="app-symbolic-name">{{app?.symbolicName}}</span>
+
+      <label class="app-url">Application URL:</label>
+      <a class="app-url" [href]="app?.baseUrl" target="_blank">{{app?.baseUrl}}</a>
+
+      <ng-container *ngIf="app?.manifestUrl">
+        <label class="manifest-url">Manifest URL:</label>
+        <a class="manifest-url" [href]="app.manifestUrl" target="_blank">{{app.manifestUrl}}</a>
+      </ng-container>
+
+      <div class="configuration-warnings">
+    <span *ngIf="app?.scopeCheckDisabled" class="scope-check-disabled"
+          [title]="'Scope check is disabled for this application.\nThis application can use private capabilities of other applications.'">
+      SCOPE CHECK DISABLED
+    </span>
+
+        <span *ngIf="!app?.intentionRegisterApiDisabled" class="intention-register-api-enabled"
+              [title]="'Intention register API is enabled for this application.\nThis application can register intentions dynamically.'">
+      INTENTION REGISTER API ENABLED
+    </span>
+
+        <span *ngIf="app && app['intentionCheckDisabled']" class="intention-check-disabled"
+              [title]="'Intention check is disabled for this application.\nThis application can issue intents for which it has not declared any intention.'">
+      INTENTION CHECK DISABLED
+    </span>
+      </div>
+    </section>
+  </ng-template>
+  <ng-template sciTab="Providers">
+    <section class="providers" *ngIf="providers$ | async as capabilities">
+      <h2>Capabilities<span class="count-badge">{{capabilities.length}}</span></h2>
+      <sci-filter-field #capability_filter_field (filter)="onCapabilityFilter($event)"></sci-filter-field>
+      <sci-accordion (keydown)="capability_filter_field.onKeydown($event)">
+        <ng-container *ngFor="let provider of capabilities">
+          <ng-template sciAccordionItem [panel]="panel">
+            <app-provider-accordion-item [provider]="provider"></app-provider-accordion-item>
+          </ng-template>
+
+          <ng-template #panel>
+            <app-provider-accordion-panel [provider]="provider"></app-provider-accordion-panel>
+          </ng-template>
+        </ng-container>
+      </sci-accordion>
+    </section>
+  </ng-template>
+  <ng-template sciTab="Intentions">
+    <section class="intentions" *ngIf="intentions$ | async as intents">
+      <h2>Intents<span class="count-badge">{{intents.length}}</span></h2>
+      <sci-filter-field #intent_filter_field (filter)="onIntentFilter($event)"></sci-filter-field>
+      <sci-accordion (keydown)="intent_filter_field.onKeydown($event)">
+        <ng-container *ngFor="let intent of intents">
+          <ng-template sciAccordionItem [panel]="panel">
+            <app-intent-accordion-item [intent]="intent"></app-intent-accordion-item>
+          </ng-template>
+
+          <ng-template #panel>
+            <app-intent-accordion-panel [intent]="intent"></app-intent-accordion-panel>
+          </ng-template>
+        </ng-container>
+      </sci-accordion>
+    </section>
+  </ng-template>
+</sci-tab-bar>

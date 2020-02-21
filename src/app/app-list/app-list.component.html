@@ -3,16 +3,7 @@
 
   <sci-list>
     <ng-template *ngFor="let app of applications$ | async; trackBy: trackByFn" sciListItem [key]="app.symbolicName">
-      <div class="app-item">
-        <span class="label">Name:</span><span class="value">{{app.name}}</span>
-        <span class="label">Symbolic name:</span><span class="value">{{app.symbolicName}}</span>
-        <span class="label">Origin:</span><span class="value">{{app.origin}}</span>
-        <span class="label">Base URL:</span><span class="value">{{app.baseUrl}}</span>
-        <span class="label">Manifest URL:</span><span class="value">{{app.manifestUrl}}</span>
-        <span class="label">Scope check disabled:</span><span class="value">{{app.scopeCheckDisabled}}</span>
-        <span class="label">Intention register API disabled:</span><span class="value">{{app.intentionRegisterApiDisabled}}</span>
-        <span class="label">Intention registered check disabled:</span><span class="value">{{app.intentionRegisteredCheckDisabled}}</span>
-      </div>
+      <app-app-list-item [app]="app"></app-app-list-item>
     </ng-template>
   </sci-list>
 </section>

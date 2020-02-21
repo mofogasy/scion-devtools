@@ -7,7 +7,7 @@ import { AppDetailsComponent } from './app-details/app-details.component';
 const routes: Routes = [
   {path: 'app-dependencies', component: AppDependenciesComponent},
   {path: 'app-list', component: AppListComponent},
-  {path: 'app-details', component: AppDetailsComponent},
+  {path: 'app-details/:appSymbolicName', component: AppDetailsComponent},
 ];
 
 @NgModule({
