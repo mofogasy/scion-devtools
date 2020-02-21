@@ -1,4 +1,4 @@
 {
   "name": "Devtools",
-  "baseUrl": "#/testing-app"
+  "baseUrl": "#"
 }

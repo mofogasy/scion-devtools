@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+
+  > section {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+
+    > sci-list {
+      flex: auto;
+
+      div.app-item {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-gap: 10px;
+        margin-bottom: 20px;
+        border: 1px solid dimgrey;
+
+        span.label {
+          grid-column: 1 / 2;
+        }
+
+        span.value {
+          grid-column: 2 / 3;
+        }
+      }
+    }
+  }
+}
