@@ -3,6 +3,6 @@
 <a class="url" [href]="app.baseUrl" target="_blank">{{app.baseUrl}}</a>
 
 <div class="chips">
-  <span class="chip" *ngIf="intentCount">{{intentCount}} {{intentCount === 1 ? 'intention' : 'intentions'}}</span>
-  <span class="chip" *ngIf="capabilityCount">{{capabilityCount}} {{capabilityCount === 1 ? 'capability provider' : 'capability providers'}}</span>
+  <span class="chip" *ngIf="intentionCount$ | async as intentionCount">{{intentionCount}} {{intentionCount === 1 ? 'intention' : 'intentions'}}</span>
+  <span class="chip" *ngIf="providerCount$ | async as providerCount">{{providerCount}} {{providerCount === 1 ? 'capability provider' : 'capability providers'}}</span>
 </div>
