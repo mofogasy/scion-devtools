@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { Application, Beans, Intention, ManifestService } from '@scion/microfrontend-platform';
 import { map } from 'rxjs/operators';
-import { Application, Intention } from '@scion/microfrontend-platform';
 
 @Component({
   selector: 'app-intent-accordion-panel',
@@ -12,15 +12,23 @@ import { Application, Intention } from '@scion/microfrontend-platform';
 export class IntentAccordionPanelComponent implements OnChanges {
 
   public providers$: Observable<Application[]>;
+  private _applications$: Observable<{ [symbolicName: string]: Application }>;
 
   @Input()
   public intent: Intention;
 
   constructor() {
+    this._applications$ = Beans.get(ManifestService).lookupApplications$()
+      .pipe(map(applications => applications.reduce((appMap, app) => ({[app.symbolicName]: app, ...appMap}), {})));
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    // this.providers$ = this._manifestRegistryService.capabilityProviders$(this.intent.metadata.id)
-    //   .pipe(map(providers => [...providers].sort((p1, p2) => p1.name.localeCompare(p2.name))));
+    this.providers$ = combineLatest([
+      Beans.get(ManifestService).lookupCapabilityProviders$({type: this.intent.type, qualifier: this.intent.qualifier}),
+      this._applications$]
+    ).pipe(
+      map(([providers, appMap]) => providers.map(provider => appMap[provider.metadata.appSymbolicName])),
+      map(apps => [...apps].sort((p1, p2) => p1.symbolicName.localeCompare(p2.symbolicName)))
+    );
   }
 }
