@@ -1,6 +1,6 @@
 <header>
   <div class="tab" [class.selected]="tabIndex === selectedIndex" *ngFor="let tabTitle of tabTitles; let tabIndex = index">
-    <span (click)="onTabClick(tabIndex)">{{tabTitle}}</span>
+    <span (click)="selectTab(tabIndex)">{{tabTitle}}</span>
   </div>
 </header>
 <div class="content">

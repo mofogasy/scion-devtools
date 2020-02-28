@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
-import { TabBarComponent } from './tab-bar.component';
-import { TabDirective } from './tab.directive';
+import { SciTabBarComponent } from './tab-bar.component';
+import { SciTabDirective } from './tab.directive';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
-    TabBarComponent,
-    TabDirective
+    SciTabBarComponent,
+    SciTabDirective
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    TabBarComponent,
-    TabDirective
+    SciTabBarComponent,
+    SciTabDirective
   ]
 })
-export class TabBarModule {}
+export class SciTabBarModule {
+}

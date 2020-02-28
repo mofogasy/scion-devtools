@@ -14,7 +14,7 @@ import { Directive, Input, TemplateRef } from '@angular/core';
  * </sci-tab-bar>
  */
 @Directive({selector: 'ng-template[sciTab]'})
-export class TabDirective {
+export class SciTabDirective {
 
   constructor(public readonly templateRef: TemplateRef<void>) {
   }
