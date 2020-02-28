@@ -1,9 +1,10 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import { Application, Beans, CapabilityProvider, Intention, ManifestService } from '@scion/microfrontend-platform';
 import { ActivatedRoute } from '@angular/router';
 import { distinctUntilChanged, filter, first, flatMap, map, switchMap, takeUntil } from 'rxjs/operators';
-import { toFilterRegExp } from '../../../projects/scion/ɵtoolkit/widgets/src/filter-field/filter-field.component';
+import { toFilterRegExp } from '@scion/ɵtoolkit/widgets';
+import { SciTabBarComponent } from '@scion/ɵtoolkit/widgets';
 
 @Component({
   selector: 'app-app-details',
@@ -17,6 +18,8 @@ export class AppDetailsComponent implements OnDestroy {
   public providers$: Observable<CapabilityProvider[]>;
   public intentions$: Observable<Intention[]>;
 
+  @ViewChild(SciTabBarComponent)
+  private _tabBar: SciTabBarComponent;
   private _providerFilter$ = new BehaviorSubject<string>(null);
   private _intentionFilter$ = new BehaviorSubject<string>(null);
 
@@ -47,6 +50,7 @@ export class AppDetailsComponent implements OnDestroy {
           );
 
         this.app = app;
+        this._tabBar.selectTab(0);
         this.providers$ = combineLatest([this._providerFilter$, providers$]).pipe(filterCapabilities());
         this.intentions$ = combineLatest([this._intentionFilter$, intentions$]).pipe(filterIntents());
       });
