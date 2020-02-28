@@ -28,7 +28,8 @@ export class IntentAccordionPanelComponent implements OnChanges {
       this._applications$]
     ).pipe(
       map(([providers, appMap]) => providers.map(provider => appMap[provider.metadata.appSymbolicName])),
-      map(apps => [...apps].sort((p1, p2) => p1.symbolicName.localeCompare(p2.symbolicName)))
+      map(apps => new Set(apps)),
+      map(apps => Array.from(apps).sort((p1, p2) => p1.symbolicName.localeCompare(p2.symbolicName)))
     );
   }
 }
