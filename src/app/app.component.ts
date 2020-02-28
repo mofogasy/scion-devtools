@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
+import { Dimension } from '@scion/toolkit/observable';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,19 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  constructor() {
+  public isMenuBarLeft = true;
 
+  @HostBinding('class.top')
+  public get top(): boolean {
+    return !this.isMenuBarLeft;
+  }
+
+  @HostBinding('class.left')
+  public get left(): boolean {
+    return this.isMenuBarLeft;
+  }
+
+  public onDimensionChange(dimension: Dimension) {
+    this.isMenuBarLeft = dimension.clientHeight < dimension.clientWidth;
   }
 }

@@ -10,7 +10,7 @@ import { AppDetailsComponent } from './app-details/app-details.component';
 import { AppListComponent } from './app-list/app-list.component';
 import { SciViewportModule } from '@scion/toolkit/viewport';
 import {
-  SciAccordionModule, SciFilterFieldModule, SciListModule, SciParamsEnterModule, SciPropertyModule, TabBarModule
+  SciAccordionModule, SciFilterFieldModule, SciListModule, SciMenuBarModule, SciParamsEnterModule, SciPropertyModule, SciTabBarModule
 } from '@scion/ɵtoolkit/widgets';
 import { AppListItemComponent } from './app-list-item/app-list-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,19 +19,22 @@ import { CapabilityAccordionItemComponent } from './capability-accordion-item/ca
 import { IntentAccordionPanelComponent } from './intent-accordion-panel/intent-accordion-panel.component';
 import { IntentAccordionItemComponent } from './intent-accordion-item/intent-accordion-item.component';
 import { QualifierChipListComponent } from './qualifier-chip-list/qualifier-chip-list.component';
+import { SciDimensionModule } from '@scion/toolkit/dimension';
+import { AppFilterComponent } from './app-filter/app-filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppDependenciesComponent,
     AppDetailsComponent,
+    AppFilterComponent,
     AppListComponent,
     AppListItemComponent,
     CapabilityAccordionPanelComponent,
     CapabilityAccordionItemComponent,
     IntentAccordionPanelComponent,
     IntentAccordionItemComponent,
-    QualifierChipListComponent
+    QualifierChipListComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,9 @@ import { QualifierChipListComponent } from './qualifier-chip-list/qualifier-chip
     SciFilterFieldModule,
     SciParamsEnterModule,
     SciPropertyModule,
-    TabBarModule,
+    SciTabBarModule,
+    SciMenuBarModule,
+    SciDimensionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

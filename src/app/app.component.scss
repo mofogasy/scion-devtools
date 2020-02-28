@@ -1,19 +1,51 @@
+$menu-bar-size: 30px;
+
 :host {
+  display: flex;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
 
+  > sci-menu-bar {
+    a {
+      color: black;
+    }
+  }
+
   > sci-viewport {
     position: absolute;
-    top: 0;
     bottom: 0;
-    left: 0;
     right: 0;
 
     router-outlet {
       position: absolute; // take router outlet out of the document flow
+    }
+  }
+
+  &.top {
+    flex-direction: column;
+
+    > sci-menu-bar {
+      height: $menu-bar-size;
+    }
+
+    > sci-viewport {
+      top: $menu-bar-size;
+      left: 0;
+    }
+  }
+
+  &.left {
+
+    > sci-menu-bar {
+      width: $menu-bar-size;
+    }
+
+    > sci-viewport {
+      top: 0;
+      left: $menu-bar-size;
     }
   }
 }

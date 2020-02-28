@@ -1,0 +1,23 @@
+@import '../theming/widgets';
+
+:host {
+  display: flex;
+  background-color: accentColor(0.1);
+
+  &.left {
+    flex-direction: column;
+  }
+
+  > span {
+    overflow: hidden;
+    border: 1px solid accentColor(0.25);
+    border-radius: 4px;
+    margin: 2px;
+    width: 26px;
+    height: 26px;
+
+    &:hover {
+      background-color: accentColor(0.5);
+    }
+  }
+}
