@@ -23,6 +23,9 @@ export class QualifierChipListComponent implements OnChanges {
   private _qualifierKeys: string[];
 
   @Input()
+  public appSymbolicName: string;
+
+  @Input()
   public qualifier: Qualifier;
 
   @Input()

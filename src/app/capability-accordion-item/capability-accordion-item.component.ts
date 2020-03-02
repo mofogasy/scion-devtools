@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { CapabilityProvider, Qualifier } from '@scion/microfrontend-platform';
 
@@ -15,6 +14,9 @@ export class CapabilityAccordionItemComponent implements OnChanges, OnDestroy {
   private _inputChange$ = new Subject<void>();
 
   public execQualifier: Qualifier;
+
+  @Input()
+  public appSymbolicName;
 
   @Input()
   public provider: CapabilityProvider;

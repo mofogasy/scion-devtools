@@ -18,20 +18,20 @@
         </ng-container>
 
         <div class="configuration-warnings">
-    <span *ngIf="app?.scopeCheckDisabled" class="scope-check-disabled"
-          [title]="'Scope check is disabled for this application.\nThis application can use private capabilities of other applications.'">
-      SCOPE CHECK DISABLED
-    </span>
+          <span *ngIf="app?.scopeCheckDisabled" class="scope-check-disabled"
+                [title]="'Scope check is disabled for this application.\nThis application can use private capabilities of other applications.'">
+            SCOPE CHECK DISABLED
+          </span>
 
           <span *ngIf="!app?.intentionRegisterApiDisabled" class="intention-register-api-enabled"
                 [title]="'Intention register API is enabled for this application.\nThis application can register intentions dynamically.'">
-      INTENTION REGISTER API ENABLED
-    </span>
+            INTENTION REGISTER API ENABLED
+          </span>
 
           <span *ngIf="app && app['intentionCheckDisabled']" class="intention-check-disabled"
                 [title]="'Intention check is disabled for this application.\nThis application can issue intents for which it has not declared any intention.'">
-      INTENTION CHECK DISABLED
-    </span>
+            INTENTION CHECK DISABLED
+          </span>
         </div>
       </section>
     </ng-template>

@@ -10,7 +10,8 @@ import { AppDetailsComponent } from './app-details/app-details.component';
 import { AppListComponent } from './app-list/app-list.component';
 import { SciViewportModule } from '@scion/toolkit/viewport';
 import {
-  SciAccordionModule, SciFilterFieldModule, SciListModule, SciMenuBarModule, SciParamsEnterModule, SciPropertyModule, SciTabBarModule
+  SciAccordionModule, SciFilterFieldModule, SciFormFieldModule, SciListModule, SciMenuBarModule, SciParamsEnterModule, SciPropertyModule,
+  SciTabBarModule
 } from '@scion/ɵtoolkit/widgets';
 import { AppListItemComponent } from './app-list-item/app-list-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +22,7 @@ import { IntentAccordionItemComponent } from './intent-accordion-item/intent-acc
 import { QualifierChipListComponent } from './qualifier-chip-list/qualifier-chip-list.component';
 import { SciDimensionModule } from '@scion/toolkit/dimension';
 import { AppFilterComponent } from './app-filter/app-filter.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { AppFilterComponent } from './app-filter/app-filter.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     SciViewportModule,
     SciListModule,
@@ -48,7 +51,8 @@ import { AppFilterComponent } from './app-filter/app-filter.component';
     SciPropertyModule,
     SciTabBarModule,
     SciMenuBarModule,
-    SciDimensionModule
+    SciDimensionModule,
+    SciFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]

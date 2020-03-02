@@ -1,4 +1,4 @@
-<app-qualifier-chip-list [type]="provider.type" [qualifier]="provider.qualifier"></app-qualifier-chip-list>
+<app-qualifier-chip-list [appSymbolicName]="appSymbolicName" [type]="provider.type" [qualifier]="provider.qualifier"></app-qualifier-chip-list>
 <div class="actions">
   <span *ngIf="!provider.private" class="scope" [title]="'This capability provider has public scope and can be used by other applications (Public API).'">
     PUBLIC
