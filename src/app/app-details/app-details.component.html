@@ -28,7 +28,7 @@
             INTENTION REGISTER API ENABLED
           </span>
 
-          <span *ngIf="app && app['intentionCheckDisabled']" class="intention-check-disabled"
+          <span *ngIf="app?.intentionCheckDisabled" class="intention-check-disabled"
                 [title]="'Intention check is disabled for this application.\nThis application can issue intents for which it has not declared any intention.'">
             INTENTION CHECK DISABLED
           </span>

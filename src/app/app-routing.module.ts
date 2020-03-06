@@ -6,6 +6,7 @@ import { AppDetailsComponent } from './app-details/app-details.component';
 import { AppFilterComponent } from './app-filter/app-filter.component';
 
 const routes: Routes = [
+  {path: '', redirectTo: 'app-list', pathMatch: 'full'},
   {path: 'app-dependencies', component: AppDependenciesComponent},
   {path: 'app-filter', component: AppFilterComponent},
   {path: 'app-list', component: AppListComponent},
