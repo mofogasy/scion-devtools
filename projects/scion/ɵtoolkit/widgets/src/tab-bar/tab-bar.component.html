@@ -1,8 +1,8 @@
 <header>
-  <div class="tab" [class.selected]="tabIndex === selectedIndex" *ngFor="let tabTitle of tabTitles; let tabIndex = index">
-    <span (click)="selectTab(tabIndex)">{{tabTitle}}</span>
+  <div class="tab" [class.selected]="tabIndex === selectedIndex" *ngFor="let tab of tabBarItems; let tabIndex = index">
+    <span (click)="selectTab(tabIndex)">{{tab.title}}</span>
   </div>
 </header>
 <div class="content">
-  <ng-container [ngTemplateOutlet]="selectedTemplate"></ng-container>
+  <ng-container [ngTemplateOutlet]="getTempalte(selectedIndex)"></ng-container>
 </div>

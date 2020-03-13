@@ -1,41 +1,18 @@
 <section>
-  <h2>Application Details</h2>
+  <section class="properties">
+    <label class="app-name">Name:</label>
+    <span class="app-name">{{app?.name}} ({{app?.symbolicName}})</span>
+
+    <label class="app-url">URL:</label>
+    <a class="app-url" [href]="app?.baseUrl" target="_blank">{{app?.baseUrl}}</a>
+
+    <ng-container *ngIf="app?.manifestUrl">
+      <label class="manifest-url">Manifest:</label>
+      <a class="manifest-url" [href]="app.manifestUrl" target="_blank">{{app.manifestUrl}}</a>
+    </ng-container>
+  </section>
   <sci-tab-bar>
-    <ng-template sciTab="Properties">
-      <section class="application">
-        <label class="app-name">Name:</label>
-        <span class="app-name">{{app?.name}}</span>
-
-        <label class="app-symbolic-name">Symbolic name:</label>
-        <span class="app-symbolic-name">{{app?.symbolicName}}</span>
-
-        <label class="app-url">Application URL:</label>
-        <a class="app-url" [href]="app?.baseUrl" target="_blank">{{app?.baseUrl}}</a>
-
-        <ng-container *ngIf="app?.manifestUrl">
-          <label class="manifest-url">Manifest URL:</label>
-          <a class="manifest-url" [href]="app.manifestUrl" target="_blank">{{app.manifestUrl}}</a>
-        </ng-container>
-
-        <div class="configuration-warnings">
-          <span *ngIf="app?.scopeCheckDisabled" class="scope-check-disabled"
-                [title]="'Scope check is disabled for this application.\nThis application can use private capabilities of other applications.'">
-            SCOPE CHECK DISABLED
-          </span>
-
-          <span *ngIf="!app?.intentionRegisterApiDisabled" class="intention-register-api-enabled"
-                [title]="'Intention register API is enabled for this application.\nThis application can register intentions dynamically.'">
-            INTENTION REGISTER API ENABLED
-          </span>
-
-          <span *ngIf="app?.intentionCheckDisabled" class="intention-check-disabled"
-                [title]="'Intention check is disabled for this application.\nThis application can issue intents for which it has not declared any intention.'">
-            INTENTION CHECK DISABLED
-          </span>
-        </div>
-      </section>
-    </ng-template>
-    <ng-template sciTab="Providers">
+    <ng-template sciTab="Capabilities">
       <section class="providers" *ngIf="providers$ | async as capabilities">
         <h2>Capabilities<span class="count-badge">{{capabilities.length}}</span></h2>
         <sci-filter-field #capability_filter_field (filter)="onCapabilityFilter($event)"></sci-filter-field>
@@ -67,6 +44,51 @@
             </ng-template>
           </ng-container>
         </sci-accordion>
+      </section>
+    </ng-template>
+    <ng-template sciTab="Dependencies"></ng-template>
+    <ng-template sciTab="Platform Flags">
+      <section class="platform-flags">
+<!--        <form [formGroup]="platformFlagsForm">-->
+          <div>
+            <h3 [class.warning]="app.scopeCheckDisabled">Scope Check</h3>
+            <span *ngIf="app.scopeCheckDisabled; else scopeCheckEnabled">
+              Scope check is disabled for this application. This application can use private capabilities of other applications.
+            </span>
+            <ng-template #scopeCheckEnabled>
+              <span>
+                Scope check is enabled for this application. This application can only use public capabilities of other applications.
+              </span>
+            </ng-template>
+<!--            <sci-checkbox formControlName="scopeCheckDisabled"></sci-checkbox>-->
+          </div>
+
+          <div>
+            <h3 [class.warning]="!app.intentionRegisterApiDisabled">Intention Register API</h3>
+            <span *ngIf="app.intentionRegisterApiDisabled; else intentionRegisterApiEnabled">
+              Intention register API is disabled for this application. This application has to declare intentions in its manifest.
+            </span>
+            <ng-template #intentionRegisterApiEnabled>
+              <span>
+                Intention register API is enabled for this application. This application can register intentions dynamically.
+              </span>
+            </ng-template>
+<!--            <sci-checkbox formControlName="intentionRegisterApiDisabled"></sci-checkbox>-->
+          </div>
+
+          <div>
+            <h3 [class.warning]="app.intentionCheckDisabled">Intention Check</h3>
+            <span *ngIf="app.intentionCheckDisabled; else intentionCheckEnabled">
+              Intention check is disabled for this application. This application can issue intents for which it has not declared any intention.
+            </span>
+            <ng-template #intentionCheckEnabled>
+              <span>
+                Intention check is enabled for this application. This application can only issue intents for which it has declared an intention in its manifest.
+              </span>
+            </ng-template>
+<!--            <sci-checkbox formControlName="intentionCheckDisabled"></sci-checkbox>-->
+          </div>
+<!--        </form>-->
       </section>
     </ng-template>
   </sci-tab-bar>

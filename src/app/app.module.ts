@@ -10,10 +10,10 @@ import { AppDetailsComponent } from './app-details/app-details.component';
 import { AppListComponent } from './app-list/app-list.component';
 import { SciViewportModule } from '@scion/toolkit/viewport';
 import {
-  SciAccordionModule, SciFilterFieldModule, SciFormFieldModule, SciListModule, SciMenuBarModule, SciParamsEnterModule, SciPropertyModule,
+  SciAccordionModule, SciCheckboxModule, SciFilterFieldModule, SciFormFieldModule, SciListModule, SciMenuBarModule, SciParamsEnterModule,
+  SciPropertyModule,
   SciTabBarModule
 } from '@scion/ɵtoolkit/widgets';
-import { AppListItemComponent } from './app-list-item/app-list-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CapabilityAccordionPanelComponent } from './capability-accordion-panel/capability-accordion-panel.component';
 import { CapabilityAccordionItemComponent } from './capability-accordion-item/capability-accordion-item.component';
@@ -23,6 +23,7 @@ import { QualifierChipListComponent } from './qualifier-chip-list/qualifier-chip
 import { SciDimensionModule } from '@scion/toolkit/dimension';
 import { AppFilterComponent } from './app-filter/app-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SciSashboxModule } from '@scion/toolkit/sashbox';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppDetailsComponent,
     AppFilterComponent,
     AppListComponent,
-    AppListItemComponent,
     CapabilityAccordionPanelComponent,
     CapabilityAccordionItemComponent,
     IntentAccordionPanelComponent,
@@ -52,7 +52,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     SciTabBarModule,
     SciMenuBarModule,
     SciDimensionModule,
-    SciFormFieldModule
+    SciFormFieldModule,
+    SciSashboxModule,
+    SciCheckboxModule // TODO: remove if checkbox not used
   ],
   providers: [],
   bootstrap: [AppComponent]
