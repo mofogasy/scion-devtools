@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 export class AppListComponent {
 
   public applications$: Observable<Application[]>;
-  public selectedApp: Application;
+  public showDetails = false;
   public hideAppList = false;
 
   private _appFilter$ = new BehaviorSubject<string>('');

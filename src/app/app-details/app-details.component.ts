@@ -1,77 +1,69 @@
-import { AfterViewInit, Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, OperatorFunction, Subject } from 'rxjs';
 import { Application, Beans, CapabilityProvider, Intention, ManifestService } from '@scion/microfrontend-platform';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { SciTabBarComponent, toFilterRegExp } from '@scion/ɵtoolkit/widgets';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { DevToolsManifestService } from '../dev-tools-manifest.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-app-details',
   templateUrl: './app-details.component.html',
   styleUrls: ['./app-details.component.scss']
 })
-export class AppDetailsComponent implements OnChanges, AfterViewInit, OnDestroy {
+export class AppDetailsComponent implements AfterViewInit, OnDestroy {
 
-  @Input()
-  public app: Application;
-
+  public app$: Observable<Application>;
   public providers$: Observable<CapabilityProvider[]>;
   public intentions$: Observable<Intention[]>;
+  public requiresApplications$: Observable<Application[]>;
+  public requiredByApplications$: Observable<Application[]>;
 
   @ViewChild(SciTabBarComponent)
   private _tabBar: SciTabBarComponent;
-  private _app$ = new Subject<Application>();
   private _providerFilter$ = new BehaviorSubject<string>(null);
   private _intentionFilter$ = new BehaviorSubject<string>(null);
   private _destroy$ = new Subject<void>();
   private _unsubscribe$ = new Subject<void>();
   private _selectTab$ = new BehaviorSubject<number>(0);
-  // public platformFlagsForm: FormGroup;
 
-  constructor(fb: FormBuilder) {
-    // this.platformFlagsForm = fb.group({
-    //   scopeCheckDisabled: [{value: '', disabled: true}],
-    //   intentionRegisterApiDisabled: [{value: '', disabled: true}],
-    //   intentionCheckDisabled: [{value: '', disabled: true}]
-    // });
-
+  constructor(private _route: ActivatedRoute, private _manifestService: DevToolsManifestService) {
     this.installApplicationChangedListener();
   }
 
   private installApplicationChangedListener(): void {
-    this._app$
+    this._route.paramMap
       .pipe(
+        map(paramMap => paramMap.get('appSymbolicName')),
         distinctUntilChanged(),
         filter(Boolean),
         takeUntil(this._destroy$),
       )
-      .subscribe((app: Application) => {
+      .subscribe((appSymbolicName: string) => {
+        this._selectTab$.next(0);
         this._unsubscribe$.next();
 
-        const providers$: Observable<CapabilityProvider[]> = Beans.get(ManifestService).lookupCapabilityProviders$({appSymbolicName: app.symbolicName})
-          .pipe(
-            map(providers => providers.sort((c1, c2) => c1.type.localeCompare(c2.type))),
-            takeUntil(this._unsubscribe$)
-          );
+        this.app$ = Beans.get(ManifestService).lookupApplications$()
+          .pipe(map(apps => apps.find(app => app.symbolicName === appSymbolicName)));
 
-        const intentions$: Observable<Intention[]> = Beans.get(ManifestService).lookupIntentions$({appSymbolicName: app.symbolicName})
-          .pipe(
-            map(intentions => intentions.sort((i1, it2) => i1.type.localeCompare(it2.type))),
-            takeUntil(this._unsubscribe$)
-          );
+        this.providers$ = combineLatest([
+          this._providerFilter$,
+          this._manifestService.capabilities$({appSymbolicName})
+        ]).pipe(
+          filterCapabilities(),
+          takeUntil(this._unsubscribe$)
+        );
 
-        this._selectTab$.next(0);
-        // this.platformFlagsForm.patchValue(app);
-        this.providers$ = combineLatest([this._providerFilter$, providers$])
-          .pipe(
-            filterCapabilities(),
-            takeUntil(this._unsubscribe$)
-          );
-        this.intentions$ = combineLatest([this._intentionFilter$, intentions$])
-          .pipe(
-            filterIntents(),
-            takeUntil(this._unsubscribe$)
-          );
+        this.intentions$ = combineLatest([
+          this._intentionFilter$,
+          this._manifestService.intentions$({appSymbolicName})
+        ]).pipe(
+          filterIntents(),
+          takeUntil(this._unsubscribe$)
+        );
+
+        this.requiresApplications$ = this._manifestService.applicationsRequiredBy$(appSymbolicName).pipe(takeUntil(this._unsubscribe$));
+        this.requiredByApplications$ = this._manifestService.applicationsRequiring$(appSymbolicName).pipe(takeUntil(this._unsubscribe$));
       });
   }
 
@@ -83,18 +75,16 @@ export class AppDetailsComponent implements OnChanges, AfterViewInit, OnDestroy 
     this._intentionFilter$.next(filterText);
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.app) {
-      this._app$.next(changes.app.currentValue);
-    }
-  }
-
   public ngAfterViewInit(): void {
     this._selectTab$.pipe(takeUntil(this._destroy$)).subscribe(tab => this._tabBar.selectTab(tab));
   }
 
   public ngOnDestroy(): void {
     this._destroy$.next();
+  }
+
+  public trackByFn(app: Application): string {
+    return app.symbolicName;
   }
 }
 

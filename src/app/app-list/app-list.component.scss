@@ -9,17 +9,21 @@
     padding: .5em;
     font-size: 1em;
     font-weight: bold;
+  }
 
-    > span {
-      cursor: pointer;
+  span {
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
 
-      &.show-app-list {
-        margin-right: .5em;
-      }
+    &.hide-app-list {
+      float: right;
+    }
 
-      &.hide-app-list {
-        float: right;
-      }
+    &.show-app-list {
+      position: absolute;
+      top: .5em;
+      left: 0;
     }
   }
 
@@ -51,6 +55,10 @@
     display: flex;
     flex-direction: column;
     flex: auto;
+  }
+
+  > section.app-list:not(.show-details) + section.details {
+    display: none;
   }
 
   > section.app-list.hide + section.details {

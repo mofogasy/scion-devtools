@@ -1,12 +1,12 @@
-<section class="app-list" [class.show-details]="selectedApp" [class.hide]="hideAppList">
-  <header>Application List<span *ngIf="selectedApp" (click)="hideAppList = true" class="hide-app-list"><<</span></header>
+<section class="app-list" [class.show-details]="showDetails" [class.hide]="hideAppList">
+  <header>Application List<span *ngIf="showDetails" (click)="hideAppList = true" class="hide-app-list"><<</span></header>
   <sci-list (filter)="onAppFilter($event)" filterPosition="top">
     <ng-template *ngFor="let app of applications$ | async; trackBy: trackByFn" sciListItem [key]="app.symbolicName">
-      <a class="app-name" (click)="selectedApp = app">{{app.name}}</a>
+      <a class="app-name" [routerLink]="['app-detail', app.symbolicName]">{{app.name}}</a>
     </ng-template>
   </sci-list>
 </section>
-<section class="details" *ngIf="selectedApp">
-  <header><span *ngIf="hideAppList" (click)="hideAppList = false" class="show-app-list">>></span>{{selectedApp.name}}</header>
-  <app-app-details [app]="selectedApp"></app-app-details>
+<section class="details">
+  <span *ngIf="hideAppList" (click)="hideAppList = false" class="show-app-list">>></span>
+  <router-outlet (activate)="showDetails = true" (deactivate)="showDetails = false"></router-outlet>
 </section>

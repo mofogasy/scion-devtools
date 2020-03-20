@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Application, Beans, CapabilityProvider, ManifestService } from '@scion/microfrontend-platform';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Application, CapabilityProvider } from '@scion/microfrontend-platform';
+import { DevToolsManifestService } from '../dev-tools-manifest.service';
 
 @Component({
   selector: 'app-provider-accordion-panel',
@@ -9,10 +9,9 @@ import { Application, Beans, CapabilityProvider, ManifestService } from '@scion/
   styleUrls: ['./capability-accordion-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CapabilityAccordionPanelComponent implements OnChanges {
+export class CapabilityAccordionPanelComponent implements OnInit {
 
   public consumers$: Observable<Application[]>;
-  private _applications$: Observable<{ [symbolicName: string]: Application }>;
 
   @Input()
   public provider: CapabilityProvider;
@@ -20,20 +19,11 @@ export class CapabilityAccordionPanelComponent implements OnChanges {
   @HostBinding('class.has-properties')
   public hasProperties: boolean;
 
-  constructor() {
-    this._applications$ = Beans.get(ManifestService).lookupApplications$()
-      .pipe(map(applications => applications.reduce((appMap, app) => ({[app.symbolicName]: app, ...appMap}), {})));
+  constructor(private _manifestService: DevToolsManifestService) {
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  public ngOnInit(): void {
     this.hasProperties = Object.keys(this.provider.properties || {}).length > 0;
-    this.consumers$ = combineLatest([
-      Beans.get(ManifestService).lookupIntentions$({type: this.provider.type, qualifier: this.provider.qualifier}),
-      this._applications$]
-    ).pipe(
-      map(([providers, appMap]) => providers.map(provider => appMap[provider.metadata.appSymbolicName])),
-      map(apps => new Set(apps)),
-      map(apps => Array.from(apps).sort((p1, p2) => p1.symbolicName.localeCompare(p2.symbolicName)))
-    );
+    this.consumers$ = this._manifestService.applicationsUsingCapability$(this.provider);
   }
 }
