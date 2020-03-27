@@ -10,7 +10,8 @@ import { AppDetailsComponent } from './app-details/app-details.component';
 import { AppListComponent } from './app-list/app-list.component';
 import { SciViewportModule } from '@scion/toolkit/viewport';
 import {
-  SciAccordionModule, SciCheckboxModule, SciFilterFieldModule, SciFormFieldModule, SciListModule, SciMenuBarModule, SciParamsEnterModule,
+  SciMasterDetailPanelModule,
+  SciAccordionModule, SciFilterFieldModule, SciFormFieldModule, SciListModule, SciMenuBarModule, SciParamsEnterModule,
   SciPropertyModule,
   SciTabBarModule
 } from '@scion/ɵtoolkit/widgets';
@@ -21,22 +22,24 @@ import { IntentAccordionPanelComponent } from './intent-accordion-panel/intent-a
 import { IntentAccordionItemComponent } from './intent-accordion-item/intent-accordion-item.component';
 import { QualifierChipListComponent } from './qualifier-chip-list/qualifier-chip-list.component';
 import { SciDimensionModule } from '@scion/toolkit/dimension';
-import { AppFilterComponent } from './app-filter/app-filter.component';
+import { FindCapabilitiesComponent } from './find-capabilities/find-capabilities.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SciSashboxModule } from '@scion/toolkit/sashbox';
+import { FilterFieldComponent } from './find-capabilities/filter-field/filter-field.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppDependenciesComponent,
     AppDetailsComponent,
-    AppFilterComponent,
+    FindCapabilitiesComponent,
     AppListComponent,
     CapabilityAccordionPanelComponent,
     CapabilityAccordionItemComponent,
     IntentAccordionPanelComponent,
     IntentAccordionItemComponent,
     QualifierChipListComponent,
+    FilterFieldComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,7 @@ import { SciSashboxModule } from '@scion/toolkit/sashbox';
     SciDimensionModule,
     SciFormFieldModule,
     SciSashboxModule,
-    SciCheckboxModule // TODO: remove if checkbox not used
+    SciMasterDetailPanelModule
   ],
   providers: [],
   bootstrap: [AppComponent]

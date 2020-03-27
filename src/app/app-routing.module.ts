@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppDependenciesComponent } from './app-dependencies/app-dependencies.component';
 import { AppListComponent } from './app-list/app-list.component';
-import { AppFilterComponent } from './app-filter/app-filter.component';
+import { FindCapabilitiesComponent } from './find-capabilities/find-capabilities.component';
 import { AppDetailsComponent } from './app-details/app-details.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'app-list', pathMatch: 'full'},
   {path: 'app-dependencies', component: AppDependenciesComponent},
-  {path: 'app-filter', component: AppFilterComponent},
+  {path: 'find-capabilities', component: FindCapabilitiesComponent},
   {
     path: 'app-list',
     component: AppListComponent,

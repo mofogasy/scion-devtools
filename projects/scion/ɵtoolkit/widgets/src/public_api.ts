@@ -23,3 +23,4 @@ export * from './qualifier-chip-list/public_api';
 export * from './property/public_api';
 export * from './tab-bar/public_api';
 export * from './menu-bar/public_api';
+export * from './master-detail-panel/public_api';

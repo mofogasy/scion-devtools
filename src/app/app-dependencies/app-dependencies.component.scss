@@ -2,11 +2,8 @@
 
 :host {
   display: flex;
-  padding: app-padding();
 
-  > section {
-    display: flex;
-    flex-direction: column;
+  > sci-master-detail-panel {
     flex: auto;
   }
 }

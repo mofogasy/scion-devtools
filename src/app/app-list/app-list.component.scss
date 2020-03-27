@@ -1,67 +1,34 @@
 @import './projects/scion/ɵtoolkit/widgets/src/theming/widgets';
 
 :host {
-  display: grid;
-  grid-auto-columns: 1fr 3fr;
+  display: flex;
 
-  header {
-    background-color: accentColor(.1);
-    padding: .5em;
-    font-size: 1em;
-    font-weight: bold;
-  }
+  > sci-master-detail-panel {
+    flex: auto;
 
-  span {
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
+    section.app-list {
+      display: flex;
+      flex-direction: column;
 
-    &.hide-app-list {
-      float: right;
-    }
+      > header {
+        background-color: accentColor(.1);
+        padding: .5em;
+        font-size: 1em;
+        font-weight: bold;
+      }
 
-    &.show-app-list {
-      position: absolute;
-      top: .5em;
-      left: 0;
-    }
-  }
+      > sci-list {
+        padding: app-padding();
+        flex: auto;
 
-  > section.app-list {
-    display: flex;
-    flex-direction: column;
-    grid-column: 1 / 3;
-
-    &.show-details {
-      grid-column: 1 / 2;
-    }
-
-    &.hide {
-      display: none;
-    }
-
-    > sci-list {
-      padding: app-padding();
-      flex: auto;
-
-      a:hover {
-        cursor: pointer;
+        a:hover {
+          cursor: pointer;
+        }
       }
     }
-  }
 
-  > section.details {
-    grid-column: 2 / 3;
-    display: flex;
-    flex-direction: column;
-    flex: auto;
-  }
-
-  > section.app-list:not(.show-details) + section.details {
-    display: none;
-  }
-
-  > section.app-list.hide + section.details {
-    grid-column: 1 / 3;
+    section.detail {
+      display: flex;
+    }
   }
 }

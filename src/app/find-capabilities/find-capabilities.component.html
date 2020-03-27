@@ -1,0 +1,33 @@
+<sci-master-detail-panel>
+  <ng-template sciMasterPanel>
+    <section class="master">
+      <header>Find Capabilities</header>
+      <section class="filter">
+        <app-filter-field [title]="'Filter by Type'" type="value" (filter)="onTypeFilterChanged($event)"></app-filter-field>
+        <app-filter-field [title]="'Filter by Qualifier'" type="key-value" (filter)="onQualifierFilterChanged($event)"></app-filter-field>
+        <app-filter-field [title]="'Filter by App'" type="value" (filter)="onAppFilterChanged($event)"></app-filter-field>
+      </section>
+    </section>
+  </ng-template>
+  <ng-template sciDetailPanel *ngIf="hasSubscription()">
+    <section class="detail">
+      <header>Capabilities</header>
+      <output *ngIf="capabilityLookupResult$ | async as capabilities">
+        <sci-accordion *ngIf="capabilities.length else notFound">
+          <ng-container *ngFor="let capability of capabilities">
+            <ng-template sciAccordionItem [panel]="panel">
+              <app-provider-accordion-item [provider]="capability" [appSymbolicName]="capability.metadata.appSymbolicName"></app-provider-accordion-item>
+            </ng-template>
+
+            <ng-template #panel>
+              <app-provider-accordion-panel [provider]="capability"></app-provider-accordion-panel>
+            </ng-template>
+          </ng-container>
+        </sci-accordion>
+        <ng-template #notFound>
+          No capabilities found.
+        </ng-template>
+      </output>
+    </section>
+  </ng-template>
+</sci-master-detail-panel>

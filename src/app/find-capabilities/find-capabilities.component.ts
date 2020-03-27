@@ -1,106 +1,57 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Beans, CapabilityProvider, ManifestObjectFilter, ManifestService, Qualifier } from '@scion/microfrontend-platform';
 import { debounceTime, map, takeUntil } from 'rxjs/operators';
-import { SciParamsEnterComponent } from '@scion/ɵtoolkit/widgets';
-
-const APP = 'app';
-const TYPE = 'type';
-const QUALIFIER = 'qualifier';
+import { Filter, KeyValuePair } from './filter-field/filter-field.component';
 
 @Component({
-  selector: 'app-app-filter',
-  templateUrl: './app-filter.component.html',
-  styleUrls: ['./app-filter.component.scss']
+  selector: 'app-find-capabilities',
+  templateUrl: './find-capabilities.component.html',
+  styleUrls: ['./find-capabilities.component.scss']
 })
-export class AppFilterComponent implements OnDestroy {
+export class FindCapabilitiesComponent implements OnDestroy {
 
-  public APP = APP;
-  public TYPE = TYPE;
-  public QUALIFIER = QUALIFIER;
-  public form: FormGroup;
   public capabilityLookupResult$: Observable<CapabilityProvider[]>;
 
-  private _xxx = new Xxx();
+  private _manifestFilterStore = new ManifestFilterStore();
 
-  constructor(fb: FormBuilder) {
-    this.form = fb.group({
-      [APP]: [''],
-      [TYPE]: [''],
-      [QUALIFIER]: fb.array([]),
-    });
-
-    this.capabilityLookupResult$ = this._xxx.results$();
-  }
-
-  public get apps(): string[] {
-    return this._xxx.apps;
-  }
-
-  public get types(): string[] {
-    return this._xxx.types;
-  }
-
-  public get qualifiers(): Qualifier[] {
-    return this._xxx.qualifiers;
-  }
-
-  public hasFilter(): boolean {
-    return this._xxx.hasFilter();
+  constructor() {
+    this.capabilityLookupResult$ = this._manifestFilterStore.results$();
   }
 
   public hasSubscription(): boolean {
-    return this._xxx.hasSubscription();
+    return this._manifestFilterStore.hasSubscription();
   }
 
-  public getKeys(qualifier: Qualifier): string[] | undefined {
-    const keys = Object.keys(qualifier);
-    return keys.length ?  keys : undefined;
+  public onTypeFilterChanged(typeFilters: Filter[]): void {
+    this._manifestFilterStore.updateTypeFilters(typeFilters as string[]);
   }
 
-  public onAddAppFilter(): void {
-    const app = this.form.get(APP).value;
-    this.form.get(APP).setValue('');
-    this._xxx.addApp(app);
+  public onQualifierFilterChanged(qualifierFilters: Filter[]): void {
+    const qualifier: Qualifier = qualifierFilters.length ? (qualifierFilters as KeyValuePair[])
+      .reduce((aggregate, value) => {
+        return value.key ? Object.assign(aggregate, {[value.key]: value.value}) : aggregate;
+      }, {} as Qualifier)
+    : null;
+    this._manifestFilterStore.updateQualifierFilter(qualifier);
   }
 
-  public onAddTypeFilter(): void {
-    const type = this.form.get(TYPE).value;
-    this.form.get(TYPE).setValue('');
-    this._xxx.addType(type);
-  }
-
-  public onAddQualifierFilter(): void {
-    const qualifier = SciParamsEnterComponent.toParamsDictionary(this.form.get(QUALIFIER) as FormArray, false);
-    (this.form.get(QUALIFIER) as FormArray).clear();
-    this._xxx.addQualifier(qualifier);
-  }
-
-  public onRemoveAppFilter(app: string): void {
-    this._xxx.removeApp(app);
-  }
-
-  public onRemoveTypeFilter(type: string): void {
-    this._xxx.removeType(type);
-  }
-
-  public onRemoveQualifierFilter(qualifier: Qualifier): void {
-    this._xxx.removeQualifier(qualifier);
+  public onAppFilterChanged(appFilters: Filter[]): void {
+    this._manifestFilterStore.updateAppFilters(appFilters as string[]);
   }
 
   public ngOnDestroy(): void {
-    this._xxx.destroy();
+    this._manifestFilterStore.destroy();
   }
 }
 
-class Xxx {
+class ManifestFilterStore {
   private _destroy$ = new Subject<void>();
   private _update$ = new Subject<void>();
   private _map = new Map<ManifestObjectFilter, FilterValue>();
   private _apps = new Set<string>();
   private _types = new Set<string>();
-  private _qualifiers = new Set<Qualifier>();
+  private _qualifier: Qualifier;
 
   public results$(): Observable<CapabilityProvider[]> {
     return this._update$.pipe(
@@ -122,22 +73,6 @@ class Xxx {
         })
       )
     );
-  }
-
-  public get apps(): string[] {
-    return Array.from(this._apps.values());
-  }
-
-  public get types(): string[] {
-    return Array.from(this._types.values());
-  }
-
-  public get qualifiers(): Qualifier[] {
-    return Array.from(this._qualifiers.values());
-  }
-
-  public hasFilter(): boolean {
-    return !!this._apps.size || !!this._types.size || !!this._qualifiers.size;
   }
 
   public hasSubscription(): boolean {
@@ -201,9 +136,6 @@ class Xxx {
   }
 
   public addQualifier(qualifier: Qualifier): void {
-    if (Array.from(this._qualifiers.values()).find(candidate => isEqualQualifier(candidate, qualifier))) {
-      return;
-    }
     Array.from(this._map.keys()).forEach(filter => {
       if (filter.qualifier === undefined) {
         this.removeFilter(filter);
@@ -211,10 +143,9 @@ class Xxx {
       this.addFilter({appSymbolicName: filter.appSymbolicName, type: filter.type, qualifier});
     });
     if (!this._map.size) {
-
       this.addFilter({qualifier});
     }
-    this._qualifiers.add(qualifier);
+    this._qualifier = qualifier;
   }
 
   public removeApp(app: string) {
@@ -223,7 +154,7 @@ class Xxx {
       if (filter.appSymbolicName === app) {
         this.removeFilter(filter);
       }
-      if (this._apps.size === 0 && (this._types.size || this._qualifiers.size)) {
+      if (this._apps.size === 0 && (this._types.size || this._qualifier)) {
         this.addFilter({type: filter.type, qualifier: filter.qualifier});
       }
     });
@@ -235,19 +166,16 @@ class Xxx {
       if (filter.type === type) {
         this.removeFilter(filter);
       }
-      if (this._types.size === 0 && (this._apps.size || this._qualifiers.size)) {
+      if (this._types.size === 0 && (this._apps.size || this._qualifier)) {
         this.addFilter({appSymbolicName: filter.appSymbolicName, qualifier: filter.qualifier});
       }
     });
   }
 
-  public removeQualifier(qualifier: Qualifier) {
-    this._qualifiers.delete(qualifier);
+  public removeQualifier() {
     Array.from(this._map.keys()).forEach(filter => {
-      if (isEqualQualifier(filter.qualifier, qualifier)) {
-        this.removeFilter(filter);
-      }
-      if (this._qualifiers.size === 0 && (this._types.size || this._apps.size)) {
+      this.removeFilter(filter);
+      if (this._types.size || this._apps.size) {
         this.addFilter({appSymbolicName: filter.appSymbolicName, type: filter.type});
       }
     });
@@ -255,6 +183,27 @@ class Xxx {
 
   public destroy() {
     this._destroy$.next();
+  }
+
+  public updateTypeFilters(typeFilters: string[]): void {
+    typeFilters.forEach(type => this.addType(type));
+    Array.from(this._types.values())
+      .filter(type => !typeFilters.includes(type))
+      .forEach(type => this.removeType(type));
+  }
+
+  public updateQualifierFilter(qualifier: Qualifier): void {
+    this.removeQualifier();
+    if (qualifier) {
+      this.addQualifier(qualifier);
+    }
+  }
+
+  public updateAppFilters(appFilters: string[]): void {
+    appFilters.forEach(app => this.addApp(app));
+    Array.from(this._apps.values())
+      .filter(app => !appFilters.includes(app))
+      .forEach(app => this.removeApp(app));
   }
 }
 
