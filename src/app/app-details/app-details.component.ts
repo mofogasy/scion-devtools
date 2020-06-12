@@ -18,6 +18,7 @@ export class AppDetailsComponent implements OnInit, OnDestroy {
   public intentions$: Observable<Intention[]>;
   public requiresApplications$: Observable<Application[]>;
   public requiredByApplications$: Observable<Application[]>;
+  public showSash = false;
 
   private _providerFilter$ = new BehaviorSubject<string>(null);
   private _intentionFilter$ = new BehaviorSubject<string>(null);
@@ -26,6 +27,10 @@ export class AppDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private _route: ActivatedRoute, private _manifestService: DevToolsManifestService) {
     this.installApplicationChangedListener();
+  }
+
+  public ngOnInit(): void {
+    setTimeout(() => this.showSash = true, 500);
   }
 
   private installApplicationChangedListener(): void {

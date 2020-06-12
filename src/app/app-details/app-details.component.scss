@@ -4,6 +4,11 @@
   display: flex;
   flex: auto;
 
+  sci-sashbox {
+    width: 100%;
+    height: 100%;
+  }
+
   > section {
     flex: auto;
     display: flex;

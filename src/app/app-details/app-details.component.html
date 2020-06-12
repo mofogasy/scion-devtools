@@ -14,6 +14,21 @@
       </ng-container>
     </section>
     <sci-tab-bar>
+      <ng-template sciTab="Test Sash Box">
+        <sci-sashbox direction="column">
+          <ng-template sciSash *ngIf="showSash">
+            <div style="border: 1px solid black;">
+              <h1>Title</h1>
+            </div>
+          </ng-template>
+
+          <ng-template sciSash *ngIf="showSash">
+            <div style="border: 1px solid black;">
+              <h1>Title</h1>
+            </div>
+          </ng-template>
+        </sci-sashbox>
+      </ng-template>
       <ng-template sciTab="Capabilities">
         <section class="providers" *ngIf="providers$ | async as capabilities">
           <h2>Capabilities<span class="count-badge">{{capabilities.length}}</span></h2>
