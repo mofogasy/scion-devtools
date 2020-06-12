@@ -26,6 +26,7 @@ import { FindCapabilitiesComponent } from './find-capabilities/find-capabilities
 import { ReactiveFormsModule } from '@angular/forms';
 import { SciSashboxModule } from '@scion/toolkit/sashbox';
 import { FilterFieldComponent } from './find-capabilities/filter-field/filter-field.component';
+import { AppListItemComponent } from './app-list-item/app-list-item.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { FilterFieldComponent } from './find-capabilities/filter-field/filter-fi
     AppDetailsComponent,
     FindCapabilitiesComponent,
     AppListComponent,
+    AppListItemComponent,
     CapabilityAccordionPanelComponent,
     CapabilityAccordionItemComponent,
     IntentAccordionPanelComponent,

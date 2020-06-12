@@ -4,7 +4,7 @@
       <header>Application List</header>
       <sci-list (filter)="onAppFilter($event)" filterPosition="top">
         <ng-template *ngFor="let app of applications$ | async; trackBy: trackByFn" sciListItem [key]="app.symbolicName">
-          <a class="app-name" [routerLink]="['app-detail', app.symbolicName]">{{app.name}}</a>
+          <app-app-list-item [app]="app"></app-app-list-item>
         </ng-template>
       </sci-list>
     </section>
