@@ -57,6 +57,16 @@ export class DevToolsManifestService {
       .pipe(findDistinctApplications(appSymbolicName, mappingFunc));
   }
 
+  public applicationDependencyMap$(): Observable<Map<Application, Application[]>> {
+    return Beans.get(ManifestService).lookupApplications$().pipe(
+      switchMap(applications => combineLatest(
+        applications.map(app => this.applicationsRequiredBy$(app.symbolicName)
+          .pipe(map(apps => ({app, apps}))))
+      )),
+      map(arrayOfArrays => arrayOfArrays.reduce((appMap, dep) => appMap.set(dep.app, dep.apps), new Map<Application, Application[]>()))
+    );
+  }
+
   private applicationsMap$(): Observable<Map<string, Application>> {
     return Beans.get(ManifestService).lookupApplications$()
       .pipe(map(applications => applications.reduce((appMap, app) => appMap.set(app.symbolicName, app), new Map<string, Application>())));
