@@ -70,37 +70,37 @@
       <ng-template sciTab="Platform Flags">
         <section class="platform-flags">
           <div>
-            <h3 [class.warning]="app.scopeCheckDisabled">Scope Check</h3>
-            <span *ngIf="app.scopeCheckDisabled; else scopeCheckEnabled">
-              Scope check is disabled for this application. This application can use private capabilities of other applications.
+            <h3>Scope Check</h3>
+            <span *ngIf="app.scopeCheckDisabled; else scopeCheckEnabled" title="Scope check is disabled for this application. This application can use private capabilities of other applications.">
+              DISABLED
             </span>
             <ng-template #scopeCheckEnabled>
-              <span>
-                Scope check is enabled for this application. This application can only use public capabilities of other applications.
+              <span title="Scope check is enabled for this application. This application can only use public capabilities of other applications.">
+                ENABLED
               </span>
             </ng-template>
           </div>
 
           <div>
-            <h3 [class.warning]="!app.intentionRegisterApiDisabled">Intention Register API</h3>
-            <span *ngIf="app.intentionRegisterApiDisabled; else intentionRegisterApiEnabled">
-              Intention register API is disabled for this application. This application has to declare intentions in its manifest.
+            <h3>Intention Register API</h3>
+            <span *ngIf="app.intentionRegisterApiDisabled; else intentionRegisterApiEnabled" title="Intention register API is disabled for this application. This application has to declare intentions in its manifest.">
+              DISABLED
             </span>
             <ng-template #intentionRegisterApiEnabled>
-              <span>
-                Intention register API is enabled for this application. This application can register intentions dynamically.
+              <span title="Intention register API is enabled for this application. This application can register intentions dynamically.">
+                ENABLED
               </span>
             </ng-template>
           </div>
 
           <div>
-            <h3 [class.warning]="app.intentionCheckDisabled">Intention Check</h3>
-            <span *ngIf="app.intentionCheckDisabled; else intentionCheckEnabled">
-              Intention check is disabled for this application. This application can issue intents for which it has not declared any intention.
+            <h3>Intention Check</h3>
+            <span *ngIf="app.intentionCheckDisabled; else intentionCheckEnabled" title="Intention check is disabled for this application. This application can issue intents for which it has not declared any intention.">
+              DISABLED
             </span>
             <ng-template #intentionCheckEnabled>
-              <span>
-                Intention check is enabled for this application. This application can only issue intents for which it has declared an intention in its manifest.
+              <span title="Intention check is enabled for this application. This application can only issue intents for which it has declared an intention in its manifest.">
+                ENABLED
               </span>
             </ng-template>
           </div>
