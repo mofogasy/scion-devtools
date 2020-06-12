@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, MonoTypeOperatorFunction, Observable, OperatorFunction, pipe } from 'rxjs';
+import { combineLatest, MonoTypeOperatorFunction, Observable, of, OperatorFunction, pipe } from 'rxjs';
 import {
   Application, Beans, CapabilityProvider, Intent, Intention, ManifestObjectFilter, ManifestService
 } from '@scion/microfrontend-platform';
@@ -93,9 +93,9 @@ function applicationsBySymbolicName(): OperatorFunction<[string[], Map<string, A
 
 function findDistinctApplications(appSymbolicName: string, mappingFunc: (it: ManifestObject) => Observable<Application[]>): OperatorFunction<ManifestObject[], Application[]> {
   return pipe(
-    switchMap(elements => combineLatest(elements.map(element => mappingFunc(element)
-      .pipe(map(apps => apps.filter(app => app.symbolicName !== appSymbolicName)))
-    ))),
+    switchMap(elements => elements.length ? combineLatest(elements.map(element => mappingFunc(element)
+      .pipe(map(apps => apps.filter(app => app.symbolicName !== appSymbolicName))))) : of([])
+    ),
     map(arrayOfArrays => arrayOfArrays.reduce((resultingArray, array) => [...resultingArray, ...array], [])),
     distinctApplications(),
   );

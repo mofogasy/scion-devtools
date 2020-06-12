@@ -11,7 +11,7 @@
   <h2>Used by following applications</h2>
   <ul>
     <li *ngFor="let consumer of consumers$ | async">
-      <a class="app-name" [routerLink]="['../', consumer.symbolicName]" [class.self]="consumer.symbolicName === provider.metadata.appSymbolicName">
+      <a class="app-name" [routerLink]="['/app-list/app-detail', consumer.symbolicName]" [class.self]="consumer.symbolicName === provider.metadata.appSymbolicName">
         {{consumer.name}}
       </a>
     </li>

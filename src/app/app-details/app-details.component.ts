@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, OperatorFunction, Subject } from 'rxjs';
 import { Application, Beans, CapabilityProvider, Intention, ManifestService } from '@scion/microfrontend-platform';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
-import { SciTabBarComponent, toFilterRegExp } from '@scion/ɵtoolkit/widgets';
+import { toFilterRegExp } from '@scion/ɵtoolkit/widgets';
 import { DevToolsManifestService } from '../dev-tools-manifest.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './app-details.component.html',
   styleUrls: ['./app-details.component.scss']
 })
-export class AppDetailsComponent implements AfterViewInit, OnDestroy {
+export class AppDetailsComponent implements OnInit, OnDestroy {
 
   public app$: Observable<Application>;
   public providers$: Observable<CapabilityProvider[]>;
@@ -19,13 +19,10 @@ export class AppDetailsComponent implements AfterViewInit, OnDestroy {
   public requiresApplications$: Observable<Application[]>;
   public requiredByApplications$: Observable<Application[]>;
 
-  @ViewChild(SciTabBarComponent)
-  private _tabBar: SciTabBarComponent;
   private _providerFilter$ = new BehaviorSubject<string>(null);
   private _intentionFilter$ = new BehaviorSubject<string>(null);
   private _destroy$ = new Subject<void>();
   private _unsubscribe$ = new Subject<void>();
-  private _selectTab$ = new BehaviorSubject<number>(0);
 
   constructor(private _route: ActivatedRoute, private _manifestService: DevToolsManifestService) {
     this.installApplicationChangedListener();
@@ -40,7 +37,6 @@ export class AppDetailsComponent implements AfterViewInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((appSymbolicName: string) => {
-        this._selectTab$.next(0);
         this._unsubscribe$.next();
 
         this.app$ = Beans.get(ManifestService).lookupApplications$()
@@ -73,10 +69,6 @@ export class AppDetailsComponent implements AfterViewInit, OnDestroy {
 
   public onIntentFilter(filterText: string): void {
     this._intentionFilter$.next(filterText);
-  }
-
-  public ngAfterViewInit(): void {
-    this._selectTab$.pipe(takeUntil(this._destroy$)).subscribe(tab => this._tabBar.selectTab(tab));
   }
 
   public ngOnDestroy(): void {

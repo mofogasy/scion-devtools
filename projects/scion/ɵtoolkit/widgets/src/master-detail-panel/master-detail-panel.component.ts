@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, HostBinding } from '@angular/core';
 import { SciMasterPanelDirective } from './master-panel.directive';
 import { SciDetailPanelDirective } from './detail-panel.directive';
 
@@ -10,13 +10,25 @@ import { SciDetailPanelDirective } from './detail-panel.directive';
 })
 export class SciMasterDetailPanelComponent {
 
+  constructor(private _cdRef: ChangeDetectorRef) {
+  }
+
+  private _showMaster = true;
+  public detailTemplate: SciDetailPanelDirective;
+
   @ContentChild(SciMasterPanelDirective)
   public masterTemplate: SciMasterPanelDirective;
 
   @ContentChild(SciDetailPanelDirective)
-  public detailTemplate: SciDetailPanelDirective;
+  public set updateDetailTemplate(detailTemplate: SciDetailPanelDirective) {
+    this.detailTemplate = detailTemplate;
 
-  private _showMaster = true;
+    // force showing master if detail removed
+    if (!this.showDetail) {
+      this._showMaster = true;
+    }
+    this._cdRef.markForCheck();
+  }
 
   @HostBinding('class.show-master')
   public get showMaster(): boolean {
