@@ -1,4 +1,4 @@
-<a class="app-name" [routerLink]="['app-detail', app.symbolicName]">{{app.name}}</a>
+<a class="app-name" [routerLink]="[{outlets: {details: ['app-detail', app.symbolicName]}}]">{{app.name}}</a>
 <span class="app-symbolic-name" title="symbolic name">{{app.symbolicName}}</span>
 <a class="url" [href]="app.baseUrl" target="_blank">{{app.baseUrl}}</a>
 

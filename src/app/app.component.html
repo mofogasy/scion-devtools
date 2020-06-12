@@ -1,14 +1,34 @@
-<sci-menu-bar [class.left]="isMenuBarLeft">
-  <ng-template sciMenuItem>
+<menu [class.left]="isMenuBarLeft" role="toolbar">
+  <li>
     <a [routerLink]="['app-list']" title="List"><i class="material-icons list">list</i></a>
-  </ng-template>
-  <ng-template sciMenuItem>
-    <a [routerLink]="['find-capabilities']" title="Filter"><i class="material-icons search">search</i></a>
-  </ng-template>
-  <ng-template sciMenuItem>
+  </li>
+  <li>
+    <a [routerLink]="['find-capabilities', {outlets: {details: ['filter-results']}}]" title="Filter"><i class="material-icons search">search</i></a>
+  </li>
+  <li>
     <a [routerLink]="['app-dependencies']" title="Dependencies"><i class="material-icons share">share</i></a>
-  </ng-template>
-</sci-menu-bar>
+  </li>
+</menu>
 <sci-viewport sciDimension (sciDimensionChange)="onDimensionChange($event)">
-  <router-outlet></router-outlet>
+  <sci-sashbox>
+    <ng-template sciSash *ngIf="showPrimary && showSash" size="1">
+      <div>
+        <header>
+          {{primaryTitle}}
+          <span class="hide-primary" *ngIf="showPrimary && showDetails" (click)="onHidePrimaryClicked()"><<</span>
+        </header>
+        <router-outlet (activate)="onActivatePrimary($event)"></router-outlet>
+      </div>
+    </ng-template>
+
+    <ng-template sciSash *ngIf="showDetails && showSash" size="2">
+      <div>
+        <header>
+          <span *ngIf="!showPrimary && showDetails" (click)="onShowPrimaryClicked()">>></span>
+          {{detailsTitle}}
+        </header>
+        <router-outlet name="details" (activate)="onActivateDetails($event)"></router-outlet>
+      </div>
+    </ng-template>
+  </sci-sashbox>
 </sci-viewport>

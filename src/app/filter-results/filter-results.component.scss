@@ -1,19 +1,22 @@
 @import './projects/scion/ɵtoolkit/widgets/src/theming/widgets';
 
 :host {
-  flex: auto;
   display: flex;
+  flex: auto;
 
   section {
-    flex: auto;
     display: flex;
+    flex-direction: column;
+    flex: auto;
 
-    > sci-list {
+    > output {
       padding: app-padding();
+      display: flex;
       flex: auto;
 
-      a:hover {
-        cursor: pointer;
+      > sci-accordion {
+        flex: auto;
+        min-height: 10em;
       }
     }
   }

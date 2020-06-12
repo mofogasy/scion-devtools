@@ -3,41 +3,10 @@
 :host {
   display: flex;
 
-  > sci-master-detail-panel {
-    flex: auto;
-
-    header {
-      background-color: accentColor(.1);
-      padding: .5em;
-      font-size: 1em;
-      font-weight: bold;
-    }
-
-    section.master {
-
-      > section.filter {
-        padding: app-padding();
-        display: grid;
-        grid-template-columns: 320px;
-        grid-row-gap: 20px;
-      }
-    }
-
-    section.detail {
-      display: flex;
-      flex-direction: column;
-      flex: auto;
-
-      > output {
-        padding: app-padding();
-        display: flex;
-        flex: auto;
-
-        > sci-accordion {
-          flex: auto;
-          min-height: 10em;
-        }
-      }
-    }
+  > section {
+    padding: app-padding();
+    display: grid;
+    grid-template-columns: 320px;
+    grid-row-gap: 20px;
   }
 }

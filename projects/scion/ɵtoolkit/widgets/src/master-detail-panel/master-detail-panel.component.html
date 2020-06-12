@@ -1,8 +1,0 @@
-<sci-viewport class="master">
-  <span class="hide-master" *ngIf="showMaster && showDetail" (click)="onHideMasterClicked()"><<</span>
-  <ng-container *ngTemplateOutlet="masterTemplate.templateRef"></ng-container>
-</sci-viewport>
-<sci-viewport class="detail">
-  <span class="show-master" *ngIf="!showMaster && showDetail" (click)="onShowMasterClicked()">>></span>
-  <ng-container *ngTemplateOutlet="detailTemplate?.templateRef"></ng-container>
-</sci-viewport>

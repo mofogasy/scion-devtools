@@ -10,10 +10,7 @@ import { AppDetailsComponent } from './app-details/app-details.component';
 import { AppListComponent } from './app-list/app-list.component';
 import { SciViewportModule } from '@scion/toolkit/viewport';
 import {
-  SciMasterDetailPanelModule,
-  SciAccordionModule, SciFilterFieldModule, SciFormFieldModule, SciListModule, SciMenuBarModule, SciParamsEnterModule,
-  SciPropertyModule,
-  SciTabBarModule
+  SciAccordionModule, SciFilterFieldModule, SciFormFieldModule, SciListModule, SciParamsEnterModule, SciPropertyModule, SciTabBarModule
 } from '@scion/ɵtoolkit/widgets';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CapabilityAccordionPanelComponent } from './capability-accordion-panel/capability-accordion-panel.component';
@@ -27,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SciSashboxModule } from '@scion/toolkit/sashbox';
 import { FilterFieldComponent } from './find-capabilities/filter-field/filter-field.component';
 import { AppListItemComponent } from './app-list-item/app-list-item.component';
+import { FilterResultsComponent } from './filter-results/filter-results.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +40,7 @@ import { AppListItemComponent } from './app-list-item/app-list-item.component';
     IntentAccordionItemComponent,
     QualifierChipListComponent,
     FilterFieldComponent,
+    FilterResultsComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,11 +54,9 @@ import { AppListItemComponent } from './app-list-item/app-list-item.component';
     SciParamsEnterModule,
     SciPropertyModule,
     SciTabBarModule,
-    SciMenuBarModule,
     SciDimensionModule,
     SciFormFieldModule,
-    SciSashboxModule,
-    SciMasterDetailPanelModule
+    SciSashboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

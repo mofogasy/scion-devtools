@@ -11,6 +11,8 @@ import { Subject } from 'rxjs';
 })
 export class AppDependenciesComponent implements OnInit, OnDestroy {
 
+  public title = 'Dependency Graph';
+
   @ViewChild('svg', {read: ElementRef, static: true})
   private _svg: ElementRef;
 
